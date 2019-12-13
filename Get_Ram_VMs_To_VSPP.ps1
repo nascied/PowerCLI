@@ -10,7 +10,7 @@ Get-VM | ? { $_.PowerState -eq "PoweredOn" } | % {
         Nome = $VMName
         TotalMemoria = $VMMemCalc
     }
-    $item | select TotalMemoria
+    $item 
     } 
     
-}
+} | select TotalMemoria
