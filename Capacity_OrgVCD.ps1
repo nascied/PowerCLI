@@ -1,4 +1,4 @@
-Get-OrgVdc -Org (orgname) -Name '(org vcd name)' | % {
+Get-OrgVdc -Org FWC -Name 'FWC_GERAL_CPS' | % {
 
     $Nome_orgVDC = $_.Name
     $TotalCpu = $_.CpuAllocationGhz
@@ -17,6 +17,8 @@ Get-OrgVdc -Org (orgname) -Name '(org vcd name)' | % {
         Write-Host "*** Capacity de CPU acabando..." -ForegroundColor Red 
         Write-Host "*** Capacity de Memoria acabando..." -ForegroundColor Red
         Write-host "*** Capacity Storage acabando..." -ForegroundColor Red
+        Write-Host ""
+        Write-Host "==================================="
         $item = New-Object -TypeName psobject @{
 
             Nome = $Nome_orgVDC
