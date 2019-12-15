@@ -1,23 +1,51 @@
-Get-OrgVdc -Org (nome da org) -Name '(Nome da org VCD)' | % {
+Get-OrgVdc -Org FWC -Name 'FWC_GERAL_CPS' | % {
 
     $Nome_orgVDC = $_.Name
-    $CpuUsage = $_.CpuUsedGhz
-    $TotalCPU = $_.CpuAllocationGhz
-    $TotalMemory = $_.MemoryAllocationGB
-    $MemUsage = $_.MemoryUsedGB
+    $TotalCpu = $_.CpuAllocationGhz
+    $TotalCpuUsado = $_.CpuUsedGhz
+    $TotalCpuLivre = ($TotalCpu - $TotalCpuUsado)
+    $TotalMem = $_.MemoryAllocationGB
+    $TotalMemUsage = $_.MemoryUsedGB
+    $TotalMemFree = ($TotalMem - $TotalMemUsage)
     $TotalStorage = $_.StorageLimitGB
-    $StorageUsage = $_.StorageUsedGB
+    $TotalStorageUsage = $_.StorageUsedGB
+    $TotalStorageFree = ($TotalStorage - $TotalStorageUsage) 
 
-    $item = New-Object -TypeName psobject @{
+    if ( $TotalCpuLivre -le "15" -and $TotalMemFree -le "10" -and $TotalStorageFree -le "2048"){
+        
+        Write-Progress -Activity "Calculando Capcity"
+        Write-Host "*** Capacity de CPU acabando..." -ForegroundColor Red 
+        Write-Host "*** Capacity de Memoria acabando..." -ForegroundColor Red
+        Write-host "*** Capacity Storage acabando..." -ForegroundColor Red
+        $item = New-Object -TypeName psobject @{
 
-        Nome = $Nome_orgVDC
-        TotalCPU = $TotalCPU
-        TotalCPUUsage = $CpuUsage
-        TotalMemoria = $TotalMemory
-        TotalMemusada = $MemUsage 
-        TotalStorage = $TotalStorage
-        TotalStorageUsage = $StorageUsage
-        TotalFree = ($TotalMemory - $MemUsage)
-   }
-   $item 
-} | select Nome,TotalCPU,TotalCPUUsage,TotalMemoria,TotalMemusada,TotalFree,TotalStorage,TotalStorageUsage | Sort-Object -Property Nome
+            Nome = $Nome_orgVDC
+            TotalCpu = $TotalCpu
+            TotalCpuUsado = $TotalCpuUsado
+            TotalCpuLivre = $TotalCpuLivre
+            
+            TotalMem = $TotalMem
+            TotalMemUsado = $TotalMemUsage 
+            TotalMemLivre = $TotalMemFree
+            TotalStorage = $TotalStorage  
+            TotalStorageUsado = $TotalStorageUsage
+            TotalStorageLivre = $TotalStorageFree
+       }
+       $item
+    } else {
+        $item = New-Object -TypeName psobject @{
+
+            Nome = $Nome_orgVDC
+            TotalCpu = $TotalCpu
+            TotalCpuUsado = $TotalCpuUsado
+            TotalCpuLivre = $TotalCpuLivre
+            
+            TotalMem = $TotalMem
+            TotalMemUsado = $TotalMemUsage 
+            TotalMemLivre = $TotalMemFree
+            TotalStorage = $TotalStorage  
+            TotalStorageUsado = $TotalStorageUsage
+            TotalStorageLivre = $TotalStorageFree
+       }
+    }
+} | select Nome,TotalCpu,TotalCpuUsado,TotalCpuLivre,TotalMem,TotalMemUsado,TotalMemLivre,TotalStorage,TotalStorageUsado,TotalStorageLivre
