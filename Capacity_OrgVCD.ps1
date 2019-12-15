@@ -14,11 +14,11 @@ Get-OrgVdc -Org FWC -Name 'FWC_GERAL_CPS' | % {
     if ( $TotalCpuLivre -le "15" -and $TotalMemFree -le "10" -and $TotalStorageFree -le "2048"){
         
         Write-Progress -Activity "Calculando Capcity"
+        Write-Host "+++++++++++++++++++++++++++++++++++" -ForegroundColor Yellow
         Write-Host "*** Capacity de CPU acabando..." -ForegroundColor Red 
         Write-Host "*** Capacity de Memoria acabando..." -ForegroundColor Red
-        Write-host "*** Capacity Storage acabando..." -ForegroundColor Red
-        Write-Host ""
-        Write-Host "==================================="
+        Write-host "*** Capacity de Storage acabando..." -ForegroundColor Red
+        Write-Host "+++++++++++++++++++++++++++++++++++" -ForegroundColor Yellow
         $item = New-Object -TypeName psobject @{
 
             Nome = $Nome_orgVDC
