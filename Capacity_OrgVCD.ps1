@@ -1,4 +1,4 @@
-Get-OrgVdc -Org FWC -Name 'FWC_GERAL_CPS' | % {
+Get-OrgVdc -Org (oeg) -Name '(orgvcdname)' | % {
 
     $Nome_orgVDC = $_.Name
     $TotalCpu = $_.CpuAllocationGhz
