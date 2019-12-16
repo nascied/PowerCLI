@@ -1,4 +1,4 @@
-Get-OrgVdc -Org CD167877 -Name 'CD167877_VDC_APODI-FTL' | % {
+Get-OrgVdc -Org (org name) -Name '(org vcd name)' | % {
 
     $Nome_orgVDC = $_.Name
     $TotalCpu = $_.CpuAllocationGhz
@@ -11,7 +11,7 @@ Get-OrgVdc -Org CD167877 -Name 'CD167877_VDC_APODI-FTL' | % {
     $TotalStorageUsage = [math]::Round(($_.StorageUsedGB),0)
     $TotalStorageFree = [math]::Round(($TotalStorage - $TotalStorageUsage),0)
     $TotalQtdeVapp = $_.VAppCount
-    $TotalQtdeVMs = (Get-OrgVdc -Org CD167877 -Name 'CD167877_VDC_APODI-FTL' | Get-CIVApp | Get-CIVM | measure).Count
+    $TotalQtdeVMs = (Get-OrgVdc -Org orgname -Name 'orgvcdname' | Get-CIVApp | Get-CIVM | measure).Count
 
     if ( $TotalCpuLivre -le "15" -and $TotalMemFree -le "10" -and $TotalStorageFree -le "2048"){
         
