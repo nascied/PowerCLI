@@ -1,4 +1,4 @@
-Get-OrgVdc -Org (oeg) -Name '(orgvcdname)' | % {
+Get-OrgVdc -Org CD167877 -Name 'CD167877_VDC_APODI-FTL' | % {
 
     $Nome_orgVDC = $_.Name
     $TotalCpu = $_.CpuAllocationGhz
@@ -8,8 +8,10 @@ Get-OrgVdc -Org (oeg) -Name '(orgvcdname)' | % {
     $TotalMemUsage = $_.MemoryUsedGB
     $TotalMemFree = ($TotalMem - $TotalMemUsage)
     $TotalStorage = $_.StorageLimitGB
-    $TotalStorageUsage = $_.StorageUsedGB
-    $TotalStorageFree = ($TotalStorage - $TotalStorageUsage) 
+    $TotalStorageUsage = [math]::Round(($_.StorageUsedGB),0)
+    $TotalStorageFree = [math]::Round(($TotalStorage - $TotalStorageUsage),0)
+    $TotalQtdeVapp = $_.VAppCount
+    $TotalQtdeVMs = (Get-OrgVdc -Org CD167877 -Name 'CD167877_VDC_APODI-FTL' | Get-CIVApp | Get-CIVM | measure).Count
 
     if ( $TotalCpuLivre -le "15" -and $TotalMemFree -le "10" -and $TotalStorageFree -le "2048"){
         
@@ -32,6 +34,8 @@ Get-OrgVdc -Org (oeg) -Name '(orgvcdname)' | % {
             TotalStorage = $TotalStorage  
             TotalStorageUsado = $TotalStorageUsage
             TotalStorageLivre = $TotalStorageFree
+            TotalQtdevApp = $TotalQtdeVapp
+            TotalQtdeVMs = $TotalQtdeVMs
        }
        $item
     } else {
@@ -48,6 +52,8 @@ Get-OrgVdc -Org (oeg) -Name '(orgvcdname)' | % {
             TotalStorage = $TotalStorage  
             TotalStorageUsado = $TotalStorageUsage
             TotalStorageLivre = $TotalStorageFree
+            TotalQtdevApp = $TotalQtdeVapp
+            TotalQtdeVMs = $TotalQtdeVMs
        }
     }
-} | select Nome,TotalCpu,TotalCpuUsado,TotalCpuLivre,TotalMem,TotalMemUsado,TotalMemLivre,TotalStorage,TotalStorageUsado,TotalStorageLivre
+} | select Nome,TotalCpu,TotalCpuUsado,TotalCpuLivre,TotalMem,TotalMemUsado,TotalMemLivre,TotalStorage,TotalStorageUsado,TotalStorageLivre,TotalQtdevApp,TotalQtdeVMs
