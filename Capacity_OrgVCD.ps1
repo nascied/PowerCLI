@@ -55,5 +55,6 @@ Get-OrgVdc -Org (org name) -Name '(org vcd name)' | % {
             TotalQtdevApp = $TotalQtdeVapp
             TotalQtdeVMs = $TotalQtdeVMs
        }
+       $item
     }
 } | select Nome,TotalCpu,TotalCpuUsado,TotalCpuLivre,TotalMem,TotalMemUsado,TotalMemLivre,TotalStorage,TotalStorageUsado,TotalStorageLivre,TotalQtdevApp,TotalQtdeVMs
