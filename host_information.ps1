@@ -1,4 +1,4 @@
-Get-VMHost | ? { $_.Name -match "ascenty-bl02-*" } | Sort-Object -Property name | % {
+Get-VMHost | ? { $_.Name -match "*" } | Sort-Object -Property name | % {
     $version = $_.Version
     $build = $_.Build
     $nome = $_.Name 
